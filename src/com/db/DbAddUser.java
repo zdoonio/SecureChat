@@ -1,61 +1,58 @@
 package com.db;
 
+//STEP 1. Import required packages
 import java.sql.*;
 
-
-
 public class DbAddUser {
-	//DB users
-	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-	static final String dbUrl = "jdbc:mysql://localhost:3306/users";
-	static final String user = "root";
-	static final String pass = "123";
-	
-	static Connection myConn = null;
-	static Statement myStmt = null;
-	static ResultSet myRs = null;
-	
-	public static void main(String[] args) throws SQLException {
-		
-		
-		     
-		     
-		
-		
-		
-		try {
-			 //STEP : Register JDBC driver
-			 Class.forName("com.mysql.jdbc.Driver");
-			// 1. Get a connection to database
-			myConn = DriverManager.getConnection(dbUrl, user , pass);
-			System.out.println("Database connection successful!\n");
-			
-			// 2. Create a statement
-			//myStmt = myConn.createStatement();
-			
-			// 3. Execute SQL query
-			//myRs = myStmt.executeQuery("select * from employees");
-			
-			// 4. Process the result set
-			//while (myRs.next()) {
-				//System.out.println(myRs.getString("last_name") + ", " + myRs.getString("first_name"));
-			//}
-		}
-		catch (Exception exc) {
-			exc.printStackTrace();
-		}
-		finally {
-		/*	if (myRs != null) {
-				myRs.close();
-			}
-			
-			if (myStmt != null) {
-				myStmt.close();
-			}*/
-			
-			if (myConn != null) {
-				myConn.close();
-			}
-		}
-	}
-}
+ // JDBC driver name and database URL
+ static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+ static final String DB_URL = "jdbc:mysql://localhost/USERS";
+
+ //  Database credentials
+ static final String USER = "root";
+ static final String PASS = "123";
+ 
+ public static void main(String[] args) {
+ Connection conn = null;
+ Statement stmt = null;
+ try{
+    //STEP 2: Register JDBC driver
+    Class.forName("com.mysql.jdbc.Driver");
+
+    //STEP 3: Open a connection
+    System.out.println("Connecting to a selected database...");
+    conn = DriverManager.getConnection(DB_URL, USER, PASS);
+    System.out.println("Connected database successfully...");
+    
+    //STEP 4: Execute a query
+    System.out.println("Inserting records into the table...");
+    stmt = conn.createStatement();
+    
+    String sql = "INSERT INTO Users " +
+                 "VALUES (1, 'TereFere', 'kslafkar323sa', 'kfa8yh2n')";
+    stmt.executeUpdate(sql);
+    System.out.println("Inserted records into the table...");
+
+ }catch(SQLException se){
+    //Handle errors for JDBC
+    se.printStackTrace();
+ }catch(Exception e){
+    //Handle errors for Class.forName
+    e.printStackTrace();
+ }finally{
+    //finally block used to close resources
+    try{
+       if(stmt!=null)
+          conn.close();
+    }catch(SQLException se){
+    }// do nothing
+    try{
+       if(conn!=null)
+          conn.close();
+    }catch(SQLException se){
+       se.printStackTrace();
+    }//end finally try
+ }//end try
+ System.out.println("Goodbye!");
+}//end main
+}//end JDBCExample
