@@ -94,6 +94,7 @@ public class UserRegGUI extends JFrame implements ActionListener {
 			Object o = e.getSource();
 			
 			if(o == badd){
+				
 			JOptionPane.showMessageDialog(null, "User added!");
 			
 			return;
