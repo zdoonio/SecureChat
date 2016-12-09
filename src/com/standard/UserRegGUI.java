@@ -22,6 +22,7 @@ public class UserRegGUI extends JFrame implements ActionListener {
 	
 
 	public UserRegGUI() throws IOException {
+		super("USER REGISTRATION");
 		//WINDOW INIT
 		setSize(500,250);
 		setName("USER REGISTRATION");

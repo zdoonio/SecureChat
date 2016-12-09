@@ -26,7 +26,7 @@ public class ServerGUI extends JFrame implements ActionListener {
 	
 
 	public ServerGUI() throws IOException {
-		super("SERVER GUI");
+		super("Secured Chat Server v0.3");
 		//WINDOW INIT
 		setSize(450,400);
 		setName("Secured Chat Server v0.3");
