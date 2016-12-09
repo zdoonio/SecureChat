@@ -27,13 +27,11 @@ public class DbAddTable {
       System.out.println("Creating table in given database...");
       stmt = conn.createStatement();
       
-      String sql = " CREATE TABLE Users " +
-                   " (UsrNum int NOT NULL " +
-                   " CHECK (UsrNum >= 1), " + 
+      String sql = " CREATE TABLE Users (" +
                    " Name 		nvarchar(30) NOT NULL, " + 
                    " Salt 		nvarchar(30) NOT NULL ,  " + 
                    " Representation	nvarchar(30) NOT NULL,"+
-                   " CONSTRAINT PK_UsrNum PRIMARY KEY (UsrNum),"+
+                   " CONSTRAINT PK_Name PRIMARY KEY (Name),"+
                    " CONSTRAINT U_Name UNIQUE (Name) ); "; 
    
       

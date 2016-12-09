@@ -3,6 +3,7 @@ package com.standard;
 
 
 import com.db.DbAddUser;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import javax.swing.*;
 
 import java.awt.event.*;
@@ -26,11 +27,13 @@ public class UserRegGUI extends JFrame implements ActionListener {
 
 
     public UserRegGUI() throws IOException {
+            
             //WINDOW INIT
             setSize(500,250);
             setName("USER REGISTRATION");
             setLayout(null);
             setResizable(false);
+            
             //BUTTONS INIT
             badd = new JButton ("ADD");
             bclear = new JButton ("CLEAR");
@@ -114,6 +117,9 @@ public class UserRegGUI extends JFrame implements ActionListener {
     }
 
 
+    /**
+     * 
+     */
     private void addUser() {
         try {
             String name = tname.getText();
@@ -122,16 +128,14 @@ public class UserRegGUI extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(this, "Password or username is empty");
             else {
                 UserReg user = new UserReg(name, password);
-                String[] args = new String[]{String.valueOf(2), user.getUsername(), user.getSalt(), user.getUserkey()};
+                String[] args = new String[]{user.getUsername(), user.getSalt(), user.getUserkey()};
                 DbAddUser.main(args);
                 JOptionPane.showMessageDialog(this, "User added!");
                 clear();
-                System.out.println(user.getHashFun());
-                System.out.println(user.getSalt());
-                System.out.println(user.getUserkey());
-                System.out.println(user.getUsername());
             }
-            
+        } catch (MySQLIntegrityConstraintViolationException ex) {
+            Logger.getLogger(UserRegGUI.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "User already exists, choose different name!");    
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(UserRegGUI.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "Something went wrong, try again!");

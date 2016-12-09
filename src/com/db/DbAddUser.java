@@ -1,6 +1,7 @@
 package com.db;
 
 //STEP 1. Import required packages
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import java.sql.*;
 
 public class DbAddUser {
@@ -13,15 +14,16 @@ public class DbAddUser {
  static final String PASS = "usbw";
  
  private static final String ADD_USER = "INSERT INTO Users "
-         + "(UsrNum, Name, Salt, Representation) VALUES (?, ?, ?, ?)";
+         + "(Name, Salt, Representation) VALUES (?, ?, ?)";
  
  
- public static void main(String[] args) {
-     insert(Integer.parseInt(args[0]), args[1], args[2], args[3]);
+ public static void main(String[] args) throws MySQLIntegrityConstraintViolationException {
+     insert(args[0], args[1], args[2]);
  }
 
 
-private static void insert(int number, String name, String salt, String representation) {
+private static void insert(String name, String salt, String representation) throws 
+        com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException {
         Connection conn = null;
         PreparedStatement stmt = null;
         try{
@@ -37,14 +39,16 @@ private static void insert(int number, String name, String salt, String represen
            System.out.println("Inserting records into the table...");
            stmt = conn.prepareStatement(ADD_USER);
 
-           stmt.setInt(1, number);
-           stmt.setString(2, name);
-           stmt.setString(3, salt);
-           stmt.setString(4, representation);
+           
+           stmt.setString(1, name);
+           stmt.setString(2, salt);
+           stmt.setString(3, representation);
            
            stmt.executeUpdate();
-           System.out.println("Inserted records into the table...");
-
+           System.out.println("Inserted records into the table...");   
+        } catch(com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException msce) {
+            throw new com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException();
+           
         }catch(SQLException se){
            //Handle errors for JDBC
            se.printStackTrace();

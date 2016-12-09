@@ -10,7 +10,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 /**
- *
+ * 
  * @author Karol
  */
 public class UserReg {
