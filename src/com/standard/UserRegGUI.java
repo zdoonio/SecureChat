@@ -2,6 +2,7 @@ package com.standard;
 
 
 
+import com.db.DbAddUser;
 import javax.swing.*;
 
 import java.awt.event.*;
@@ -121,6 +122,8 @@ public class UserRegGUI extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(this, "Password or username is empty");
             else {
                 UserReg user = new UserReg(name, password);
+                String[] args = new String[]{String.valueOf(2), user.getUsername(), user.getSalt(), user.getUserkey()};
+                DbAddUser.main(args);
                 JOptionPane.showMessageDialog(this, "User added!");
                 clear();
                 System.out.println(user.getHashFun());
