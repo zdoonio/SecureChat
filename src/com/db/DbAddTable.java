@@ -5,11 +5,11 @@ import java.sql.*;
 public class DbAddTable {
    // JDBC driver name and database URL
    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-   static final String DB_URL = "jdbc:mysql://localhost/USERS";
+   static final String DB_URL = "jdbc:mysql://localhost:3307/USERS";
 
    //  Database credentials
    static final String USER = "root";
-   static final String PASS = "123";
+   static final String PASS = "usbw";
    
    public static void main(String[] args) {
    Connection conn = null;

@@ -1,0 +1,7 @@
+[Fri Dec 09 22:12:27.092942 2016] [mpm_winnt:notice] [pid 31768:tid 748] AH00455: Apache/2.4.6 (Win32) PHP/5.4.17 configured -- resuming normal operations
+[Fri Dec 09 22:12:27.092942 2016] [mpm_winnt:notice] [pid 31768:tid 748] AH00456: Apache Lounge VC10 Server built: Jul 16 2013 11:15:41
+[Fri Dec 09 22:12:27.092942 2016] [core:notice] [pid 31768:tid 748] AH00094: Command line: 'C:\\Users\\Karol\\Documents\\GitHub\\SecureChat/apache2/bin/httpd_usbwv8.exe -d C:/Users/Karol/Documents/GitHub/SecureChat/apache2'
+[Fri Dec 09 22:12:27.108575 2016] [mpm_winnt:notice] [pid 31768:tid 748] AH00418: Parent: Created child process 17356
+[Fri Dec 09 22:12:28.749231 2016] [mpm_winnt:notice] [pid 17356:tid 720] AH00354: Child: Starting 64 worker threads.
+[Fri Dec 09 22:13:07.513569 2016] [:error] [pid 17356:tid 1232] [client ::1:60155] PHP Warning:  phpinfo(): It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected the timezone 'UTC' for now, but please set date.timezone to select your timezone. in C:\\Users\\Karol\\Documents\\GitHub\\SecureChat\\root\\index.php on line 47
+[Fri Dec 09 22:16:02.267819 2016] [mpm_winnt:warn] [pid 17356:tid 1504] (OS 64)Okreœlona nazwa sieciowa ju¿ jest niedostêpna.  : AH00341: winnt_accept: Asynchronous AcceptEx failed.
