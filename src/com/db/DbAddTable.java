@@ -5,11 +5,11 @@ import java.sql.*;
 public class DbAddTable {
    // JDBC driver name and database URL
    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-   static final String DB_URL = "jdbc:mysql://localhost:3307/USERS";
+   static final String DB_URL = "jdbc:mysql://localhost:3306/USERS";
 
    //  Database credentials
    static final String USER = "root";
-   static final String PASS = "usbw";
+   static final String PASS = "123";
    
    public static void main(String[] args) {
    Connection conn = null;
@@ -28,9 +28,9 @@ public class DbAddTable {
       stmt = conn.createStatement();
       
       String sql = " CREATE TABLE Users (" +
-                   " Name 		nvarchar(30) NOT NULL, " + 
-                   " Salt 		nvarchar(30) NOT NULL ,  " + 
-                   " Representation	nvarchar(30) NOT NULL,"+
+                   " Name 		nvarchar(32) NOT NULL, " + 
+                   " Salt 		nvarchar(32) NOT NULL ,  " + 
+                   " Representation	nvarchar(32) NOT NULL,"+
                    " CONSTRAINT PK_Name PRIMARY KEY (Name),"+
                    " CONSTRAINT U_Name UNIQUE (Name) ); "; 
    

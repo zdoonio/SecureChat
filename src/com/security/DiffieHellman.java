@@ -1,6 +1,8 @@
 
 package com.security;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.Key;
@@ -51,7 +53,7 @@ public class DiffieHellman implements CBCEncryptable {
     public void generateKeys() {
         try {
             final KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("DH");
-            random = SecureRandom.getInstanceStrong(); //buiduje Sie
+            random = SecureRandom.getInstance("SHA1PRNG"); //buiduje Sie
             keyPairGenerator.initialize(1024, random);
             final KeyPair keyPair = keyPairGenerator.generateKeyPair();
             publicKey = (DHPublicKey) keyPair.getPublic();
@@ -61,20 +63,14 @@ public class DiffieHellman implements CBCEncryptable {
         }
     }
     
-    /**
-     * TODO : manage a serialization of an object
-     * @return 
-     */
-    public DHPublicKey getPublicKey() {
-        return publicKey;
-    }
     
     /**
      * TODO: Receive a serialized key.
      * @param publicKey 
      */
-    public void receivePublicKey(DHPublicKey publicKey) {
+    public void receivePublicKey(String name) {
         receivedPublicKey = publicKey;
+        String location = "keysdh/pubkeydh"+name+".key";
     }
     
     /**
@@ -161,13 +157,24 @@ public class DiffieHellman implements CBCEncryptable {
             return keySpec;   
  
     } 
+    
+    public void keySave(String name) throws FileNotFoundException{
+    	
+    	//int blocksize = IvGenerator.AES_BLOCK_SIZE;
+    	//DiffieHellman df = new DiffieHellman();
+    	//df.generateKeys();
+    	PrintWriter pubKey = new PrintWriter("keysdh/pubkeydh"+name+".key");
+        pubKey.println(publicKey);
+        pubKey.close();
+    }
 
     
     /**
      * How use this class when agreeing on a key
      * @param args 
+     * @throws FileNotFoundException 
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
 
         int blocksize = IvGenerator.AES_BLOCK_SIZE;
         DiffieHellman df = new DiffieHellman();
@@ -175,10 +182,17 @@ public class DiffieHellman implements CBCEncryptable {
 
         DiffieHellman df2 = new DiffieHellman();
         df2.generateKeys();
-        df.receivePublicKey(df2.getPublicKey());
+        //df.receivePublicKey(df2.getPublicKey());
 
-        df2.receivePublicKey(df.getPublicKey());
-
+        //df2.receivePublicKey(df.getPublicKey());
+        
+        //System.out.println(df.getPublicKey());
+        //System.out.println(df2.getPublicKey());
+        String name = "Alice";
+        PrintWriter pubKey = new PrintWriter("keysdh/pubkeydh"+name+".key");
+        //pubKey.println(df.getPublicKey());
+        pubKey.close();
+        df2.keySave("Leszek");
         df.generateSharedSecret();
         df2.generateSharedSecret();
 

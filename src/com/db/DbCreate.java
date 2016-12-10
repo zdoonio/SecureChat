@@ -10,7 +10,7 @@ public class DbCreate {
 
  //  Database credentials
  static final String USER = "root";
- static final String PASS = "usbw";
+ static final String PASS = "123";
  
  public static void main(String[] args) {
  Connection conn = null;

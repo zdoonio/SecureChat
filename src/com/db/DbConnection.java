@@ -7,9 +7,9 @@ import java.sql.*;
 public class DbConnection {
 	//DB users
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-	static final String dbUrl = "jdbc:mysql://localhost:3307/USERS";
+	static final String dbUrl = "jdbc:mysql://localhost:3306/USERS";
 	static final String user = "root";
-	static final String pass = "ubw";
+	static final String pass = "123";
 	
 	static Connection myConn = null;
 	static Statement myStmt = null;

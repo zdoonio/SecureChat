@@ -7,11 +7,11 @@ import java.sql.*;
 public class DbAddUser {
  // JDBC driver name and database URL
  static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
- static final String DB_URL = "jdbc:mysql://localhost:3307/USERS";
+ static final String DB_URL = "jdbc:mysql://localhost:3306/USERS";
 
  //  Database credentials
  static final String USER = "root";
- static final String PASS = "usbw";
+ static final String PASS = "123";
  
  private static final String ADD_USER = "INSERT INTO Users "
          + "(Name, Salt, Representation) VALUES (?, ?, ?)";
