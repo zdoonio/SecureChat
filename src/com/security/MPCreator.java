@@ -26,7 +26,7 @@ import javax.crypto.spec.SecretKeySpec;
  *
  * @author Karol
  */
-public class MerklePuzzleBetterCreator implements CBCEncryptable {
+public class MPCreator implements CBCEncryptable {
     
     // Below the constants for encryption of communication
     
@@ -151,7 +151,7 @@ public class MerklePuzzleBetterCreator implements CBCEncryptable {
      * @param puzzleAlgorithm - either AES_CBC, DES_CBC or DESede_CBC, to be used for encrypting the puzzles.
      * @throws java.security.NoSuchAlgorithmException if the puzzleAlgorithm is not one of mentioned above
      */
-    public MerklePuzzleBetterCreator(int numberOfPuzzles, String puzzleAlgorithm) 
+    public MPCreator(int numberOfPuzzles, String puzzleAlgorithm) 
             throws NoSuchAlgorithmException {
         
         this.numberOfPuzzles = numberOfPuzzles;
@@ -295,17 +295,17 @@ public class MerklePuzzleBetterCreator implements CBCEncryptable {
             byte[] encryption = cipher.doFinal(plaintext.getBytes());
             return encryption;
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(MerklePuzzleBetterCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPCreator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NoSuchPaddingException ex) {
-            Logger.getLogger(MerklePuzzleBetterCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPCreator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvalidKeyException ex) {
-            Logger.getLogger(MerklePuzzleBetterCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPCreator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvalidAlgorithmParameterException ex) {
-            Logger.getLogger(MerklePuzzleBetterCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPCreator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalBlockSizeException ex) {
-            Logger.getLogger(MerklePuzzleBetterCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPCreator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (BadPaddingException ex) {
-            Logger.getLogger(MerklePuzzleBetterCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -317,17 +317,17 @@ public class MerklePuzzleBetterCreator implements CBCEncryptable {
             byte[] decryption = cipher.doFinal(ciphertext);
             return new String(decryption);
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(MerklePuzzleBetterCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPCreator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NoSuchPaddingException ex) {
-            Logger.getLogger(MerklePuzzleBetterCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPCreator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvalidKeyException ex) {
-            Logger.getLogger(MerklePuzzleBetterCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPCreator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvalidAlgorithmParameterException ex) {
-            Logger.getLogger(MerklePuzzleBetterCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPCreator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalBlockSizeException ex) {
-            Logger.getLogger(MerklePuzzleBetterCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPCreator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (BadPaddingException ex) {
-            Logger.getLogger(MerklePuzzleBetterCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }   
@@ -335,24 +335,24 @@ public class MerklePuzzleBetterCreator implements CBCEncryptable {
     public static void main(String[] args) throws NoSuchAlgorithmException, FileNotFoundException {
         
         try {
-            MerklePuzzleBetterCreator mpbc = new MerklePuzzleBetterCreator(134, EnabledCiphers.DES_EDE_CBC);
+            MPCreator mpbc = new MPCreator(134, EnabledCiphers.DES_EDE_CBC);
             mpbc.createPuzzles();
             
         } catch (NoSuchPaddingException ex) {
-            Logger.getLogger(MerklePuzzleBetterCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPCreator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvalidKeyException ex) {
-            Logger.getLogger(MerklePuzzleBetterCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPCreator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalBlockSizeException ex) {
-            Logger.getLogger(MerklePuzzleBetterCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPCreator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (BadPaddingException ex) {
-            Logger.getLogger(MerklePuzzleBetterCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPCreator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(MerklePuzzleBetterCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPCreator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvalidAlgorithmParameterException ex) {
-            Logger.getLogger(MerklePuzzleBetterCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        MerklePuzzleBetterCreator mpbc = new MerklePuzzleBetterCreator(123, EnabledCiphers.DES_EDE_CBC);
+        MPCreator mpbc = new MPCreator(123, EnabledCiphers.DES_EDE_CBC);
         
         
     }

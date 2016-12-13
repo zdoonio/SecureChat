@@ -31,12 +31,12 @@ import javax.crypto.spec.SecretKeySpec;
  * 
  * @author Karol
  */
-public class MerklePuzzleBetterSolver implements CBCEncryptable {
+public class MPSolver implements CBCEncryptable {
     
     /**
-     * The MerklePuzzleBetterCreator object (Alice), which creates the puzzles.
+     * The MPCreator object (Alice), which creates the puzzles.
      */
-    private final MerklePuzzleBetterCreator mpbc;
+    private final MPCreator mpc;
     
     /**
      * The filename for getting the puzzles.
@@ -56,12 +56,12 @@ public class MerklePuzzleBetterSolver implements CBCEncryptable {
     
     
     /**
-     * Constructor with the given MerklePuzzleBetterCreator object.
-     * @param mpbc 
+     * Constructor with the given MPCreator object.
+     * @param mpc 
      */
-    public MerklePuzzleBetterSolver(MerklePuzzleBetterCreator mpbc) {
-        this.mpbc = mpbc;
-        puzzlesFile = MerklePuzzleBetterCreator.PUZZLES_FILE;
+    public MPSolver(MPCreator mpc) {
+        this.mpc = mpc;
+        puzzlesFile = MPCreator.PUZZLES_FILE;
     }
     
     /**
@@ -136,7 +136,7 @@ public class MerklePuzzleBetterSolver implements CBCEncryptable {
      */
     private void agreeOnSessionKey(byte[] key) {
         this.sessionKey =  new SecretKeySpec(key, 
-                MerklePuzzleBetterCreator.SESSION_KEY_ALGORITHM);
+                MPCreator.SESSION_KEY_ALGORITHM);
     }
     
 
@@ -156,8 +156,8 @@ public class MerklePuzzleBetterSolver implements CBCEncryptable {
             NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, 
             InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
         
-        Cipher cipher = Cipher.getInstance(mpbc.getPuzzleAlgorithm());
-        cipher.init(Cipher.DECRYPT_MODE, sk, mpbc.getIv());
+        Cipher cipher = Cipher.getInstance(mpc.getPuzzleAlgorithm());
+        cipher.init(Cipher.DECRYPT_MODE, sk, mpc.getIv());
         byte[] decipher = cipher.doFinal(puzzle);
         return decipher;
 
@@ -169,29 +169,28 @@ public class MerklePuzzleBetterSolver implements CBCEncryptable {
      * @return the instance of SecretKey 
      */
     private SecretKey randomDecryptionKey() {
-        int fragmentLen = mpbc.getFragmentLen();
-        int zerosLen = mpbc.getZerosLen();
+        int fragmentLen = mpc.getFragmentLen();
+        int zerosLen = mpc.getZerosLen();
         byte[] fragmentKey = new byte[fragmentLen];
         SecureRandom random = new SecureRandom();
         random.nextBytes(fragmentKey);
         
         byte[] key = new byte[fragmentLen + zerosLen];
         System.arraycopy(fragmentKey, 0, key, 0, fragmentLen);
-        SecretKey sk = new SecretKeySpec(key, mpbc.getPuzzleKeyAlgorithm());
+        SecretKey sk = new SecretKeySpec(key, mpc.getPuzzleKeyAlgorithm());
         return sk;
     }
     
     /**
-     * Check if the prefix of a given line the same 
-     * as used by the mpbc object.
+     * Check if the prefix of a given line the same as used by the mpc object.
      * @param line - the line to be searched the prefix in
-     * @return true is prefix matches the mpbc prefix,  false otherwise
+     * @return true is prefix matches the mpc prefix,  false otherwise
      */
     private boolean isPrefixOk(String line) {
-        String prefix = line.substring(0, MerklePuzzleBetterCreator.PREFIX.length());
+        String prefix = line.substring(0, MPCreator.PREFIX.length());
         System.out.println("Prefix = " + prefix);
         return prefix
-                .equals(MerklePuzzleBetterCreator.PREFIX);
+                .equals(MPCreator.PREFIX);
     }
  
     /**
@@ -203,8 +202,8 @@ public class MerklePuzzleBetterSolver implements CBCEncryptable {
      * @throws NumberFormatException 
      */
     private byte[] getTheSessionKeyBytes(String decipherString) throws NumberFormatException {
-        int prefixLen = MerklePuzzleBetterCreator.PREFIX.length();
-        int sessionKeyLen = MerklePuzzleBetterCreator.SESSION_KEY_LEN;
+        int prefixLen = MPCreator.PREFIX.length();
+        int sessionKeyLen = MPCreator.SESSION_KEY_LEN;
         
         String sessionKeyBytes = decipherString
                 .substring(prefixLen, prefixLen + 2*sessionKeyLen);
@@ -225,8 +224,8 @@ public class MerklePuzzleBetterSolver implements CBCEncryptable {
      * @return - the public key (public reply)
      */
     private String getThePublicReply(String decipherString) {
-        int prefixLen = MerklePuzzleBetterCreator.PREFIX.length();
-        int sessionKeyLen = MerklePuzzleBetterCreator.SESSION_KEY_LEN;
+        int prefixLen = MPCreator.PREFIX.length();
+        int sessionKeyLen = MPCreator.SESSION_KEY_LEN;
         
         String publicReply = decipherString
                 .substring(prefixLen + 2*sessionKeyLen, decipherString.length());
@@ -245,36 +244,36 @@ public class MerklePuzzleBetterSolver implements CBCEncryptable {
             pw.println(reply);
             pw.close();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(MerklePuzzleBetterSolver.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPSolver.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             pw.close();
         }
     }
 
     /**
-     * the overriden encrypt from intrface CBCEncryptable
+     * the overriden encrypt from interface CBCEncryptable
      * @param plaintext
      * @param iv
      * @return 
      */
     public byte[] encrypt(String plaintext, IvParameterSpec iv) {
         try {
-            Cipher cipher = Cipher.getInstance(MerklePuzzleBetterCreator.ENC_DEC_ALGORITHM);
+            Cipher cipher = Cipher.getInstance(MPCreator.ENC_DEC_ALGORITHM);
             cipher.init(Cipher.ENCRYPT_MODE, sessionKey, iv);
             byte[] encryption = cipher.doFinal(plaintext.getBytes());
             return encryption;
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(MerklePuzzleBetterSolver.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPSolver.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NoSuchPaddingException ex) {
-            Logger.getLogger(MerklePuzzleBetterSolver.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPSolver.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvalidKeyException ex) {
-            Logger.getLogger(MerklePuzzleBetterSolver.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPSolver.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvalidAlgorithmParameterException ex) {
-            Logger.getLogger(MerklePuzzleBetterSolver.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPSolver.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalBlockSizeException ex) {
-            Logger.getLogger(MerklePuzzleBetterSolver.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPSolver.class.getName()).log(Level.SEVERE, null, ex);
         } catch (BadPaddingException ex) {
-            Logger.getLogger(MerklePuzzleBetterSolver.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPSolver.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -287,22 +286,22 @@ public class MerklePuzzleBetterSolver implements CBCEncryptable {
      */
     public String decrypt(byte[] ciphertext, IvParameterSpec iv) {
          try {
-            Cipher cipher = Cipher.getInstance(MerklePuzzleBetterCreator.ENC_DEC_ALGORITHM);
+            Cipher cipher = Cipher.getInstance(MPCreator.ENC_DEC_ALGORITHM);
             cipher.init(Cipher.DECRYPT_MODE, sessionKey, iv);
             byte[] decryption = cipher.doFinal(ciphertext);
             return new String(decryption);
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(MerklePuzzleBetterSolver.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPSolver.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NoSuchPaddingException ex) {
-            Logger.getLogger(MerklePuzzleBetterSolver.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPSolver.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvalidKeyException ex) {
-            Logger.getLogger(MerklePuzzleBetterSolver.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPSolver.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvalidAlgorithmParameterException ex) {
-            Logger.getLogger(MerklePuzzleBetterSolver.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPSolver.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalBlockSizeException ex) {
-            Logger.getLogger(MerklePuzzleBetterSolver.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPSolver.class.getName()).log(Level.SEVERE, null, ex);
         } catch (BadPaddingException ex) {
-            Logger.getLogger(MerklePuzzleBetterSolver.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPSolver.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -316,9 +315,9 @@ public class MerklePuzzleBetterSolver implements CBCEncryptable {
      */
     public static void main(String[] args) {
         try {
-            MerklePuzzleBetterCreator mpbc = new MerklePuzzleBetterCreator(10000, EnabledCiphers.AES_CBC);
+            MPCreator mpbc = new MPCreator(10000, EnabledCiphers.AES_CBC);
             mpbc.createPuzzles();
-            MerklePuzzleBetterSolver mpbs = new MerklePuzzleBetterSolver(mpbc);
+            MPSolver mpbs = new MPSolver(mpbc);
             mpbs.solvePuzzles();
             mpbc.agreeOnKey(PUBLIC_REPLY_FILE);
             
@@ -334,19 +333,19 @@ public class MerklePuzzleBetterSolver implements CBCEncryptable {
             System.out.println(decrypt);
             
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(MerklePuzzleBetterSolver.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPSolver.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(MerklePuzzleBetterSolver.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPSolver.class.getName()).log(Level.SEVERE, null, ex);
         }  catch (NoSuchPaddingException ex) {
-            Logger.getLogger(MerklePuzzleBetterSolver.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPSolver.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvalidKeyException ex) {
-            Logger.getLogger(MerklePuzzleBetterSolver.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPSolver.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalBlockSizeException ex) {
-            Logger.getLogger(MerklePuzzleBetterSolver.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPSolver.class.getName()).log(Level.SEVERE, null, ex);
         } catch (BadPaddingException ex) {
-            Logger.getLogger(MerklePuzzleBetterSolver.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPSolver.class.getName()).log(Level.SEVERE, null, ex);
         }  catch (InvalidAlgorithmParameterException ex) {
-            Logger.getLogger(MerklePuzzleBetterSolver.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MPSolver.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
