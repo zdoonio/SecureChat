@@ -4,19 +4,25 @@ package com.standard;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import com.db.DbAddTable;
+import com.db.DbConnection;
+import com.db.DbCreate;
+import com.db.DbDrop;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 
 
 public class ServerGUI extends JFrame implements ActionListener {
 	
-	private JButton register, exit, keygen;
+	private JButton register, exit, serverstatus, serverclose;
 	//private JComboBox securityChooser;
 	private BufferedImage img;
-	private JLabel lname;
+	private JLabel lname,lserverstatus,lstatus;
 	private UserRegGUI usergui;
 
 	/**
@@ -35,16 +41,20 @@ public class ServerGUI extends JFrame implements ActionListener {
 		//BUTTONS INIT
 		register = new JButton ("User Registration");
 		exit = new JButton ("EXIT");
-		keygen = new JButton ("Key Generation");
-		register.setBounds(140, 250, 170, 20);
-		exit.setBounds(140, 310, 170, 20);
-		keygen.setBounds(140, 280, 170, 20);
+		serverstatus = new JButton ("Start the Server");
+		serverclose = new JButton("Stop the Server");
+		register.setBounds(50, 270, 170, 20);
+		serverclose.setBounds(50, 330, 170, 20);
+		exit.setBounds(50, 360, 170, 20);
+		serverstatus.setBounds(50, 300, 170, 20);
 		add(register);
 		add(exit);
-		add(keygen);
+		add(serverstatus);
+		add(serverclose);
 		register.addActionListener(this);
 		exit.addActionListener(this);
-		keygen.addActionListener(this);
+		serverstatus.addActionListener(this);
+		serverclose.addActionListener(this);
 		
 		try{
 		img = ImageIO.read(new File("img/2.jpg"));
@@ -58,6 +68,13 @@ public class ServerGUI extends JFrame implements ActionListener {
 		lname = new JLabel("Authentication Server");
 		lname.setBounds(140,10,300,20);
 		add(lname);
+		lserverstatus = new JLabel("Server Status:");
+		lserverstatus.setBounds(270,300,300,20);
+		add(lserverstatus);
+		lstatus = new JLabel("OFF");
+		lstatus.setForeground(Color.red);
+		lstatus.setBounds(400,300,300,20);
+		add(lstatus);
 		
 		
 		/*
@@ -116,6 +133,37 @@ public class ServerGUI extends JFrame implements ActionListener {
 					e1.printStackTrace();
 				}
 			return;
+			}
+			
+			if(o == serverstatus){
+				lstatus.setForeground(Color.green);
+				lstatus.setText("ON");
+				DbCreate.main(null);
+				try {
+					DbConnection.main(null);
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				DbAddTable.main(null);
+				try {
+					Server.main(null);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			
+			if(o == serverclose){
+				lstatus.setForeground(Color.red);
+				lstatus.setText("OFF");
+				try {
+					DbConnection.main(null);
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				DbDrop.main(null);
 			}
 			
 			if(o == exit){

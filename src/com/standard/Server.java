@@ -5,9 +5,13 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.registry.*;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.*;
 
+import com.db.DbCheckUser;
 import com.intf.ServerIntf;
+import com.security.PBKDF;
 
 public class Server extends UnicastRemoteObject implements ServerIntf {
 	/**
@@ -46,12 +50,18 @@ public class Server extends UnicastRemoteObject implements ServerIntf {
 	}
 
 	public void setZalogowano(boolean zalogowano) {
-		//BankServer.zalogowano = zalogowano;
+		Server.isLogedIn = zalogowano;
 	}
 
-	public char Login(String name, String password) {
-
-		if ((name.equals("ewa")) && (password.equals("1234"))) {
+	public char Login(String name, char[] password) throws NoSuchAlgorithmException, InvalidKeySpecException {
+		DbCheckUser usr = new DbCheckUser();
+		String[] pass = new String[2];
+		
+		pass = usr.check(name);
+		String g = PBKDF.PBKDF2_ITERATIONS+":"+pass[0]+":"+pass[1];
+		System.out.println(g);
+		boolean validated = PBKDF.validatePassword(password, g, PBKDF.SHA1_ALGORITHM);
+		if (validated == true) {
 			setZalogowano(true);
 		}
 
@@ -78,7 +88,7 @@ public class Server extends UnicastRemoteObject implements ServerIntf {
 		Server obj = new Server();
 
 		// Bind this object instance to the name "RmiServer"
-		Naming.rebind("//localhost/BankServer", obj);
+		Naming.rebind("//localhost/ServerSecure", obj);
 		System.out.println("PeerServer bound in registry");
 	}
 
