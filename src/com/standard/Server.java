@@ -21,6 +21,9 @@ public class Server extends UnicastRemoteObject implements ServerIntf {
 	public String MESSAGE1 = "";
 	public String MESSAGE2 = "";
 	public static boolean isLogedIn;
+	public String name = "";
+	public String[] connectedUsers={"","","","","","","","","","","",""};
+	private int iterator=0;
 	
 
 	static final Scanner input = new Scanner(System.in);
@@ -29,12 +32,18 @@ public class Server extends UnicastRemoteObject implements ServerIntf {
 		super(0); // required to avoid the 'rmic' step, see below
 	}
 	
-	public void setMessage1(String message) {
+	public void sendMessage1(String message) {
 		this.MESSAGE1 = message;
 	}
 	
-	public void setMessage2(String message) {
+	public void sendMessage2(String message) {
 		this.MESSAGE2 = message;
+	}
+	
+	public void sendClientName(String name){
+		this.name = name;
+		connectedUsers[iterator]=name;
+		iterator++;
 	}
 
 	public String getMessage1() {
@@ -51,6 +60,10 @@ public class Server extends UnicastRemoteObject implements ServerIntf {
 
 	public void setZalogowano(boolean zalogowano) {
 		Server.isLogedIn = zalogowano;
+	}
+	
+	public String[] getConnectedUser(){
+		return connectedUsers;
 	}
 
 	public char Login(String name, char[] password) throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -73,6 +86,7 @@ public class Server extends UnicastRemoteObject implements ServerIntf {
 
 		return 0;
 	}
+	
 
 	public static void main(String args[]) throws Exception {
 		System.out.println("RMI server started");
