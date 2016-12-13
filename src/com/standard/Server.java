@@ -56,11 +56,13 @@ public class Server extends UnicastRemoteObject implements ServerIntf {
 	public char Login(String name, char[] password) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		DbCheckUser usr = new DbCheckUser();
 		String[] pass = new String[2];
+		System.out.println(pass[0]+":"+pass[1]);
 		
 		pass = usr.check(name);
 		String g = PBKDF.PBKDF2_ITERATIONS+":"+pass[0]+":"+pass[1];
 		System.out.println(g);
 		boolean validated = PBKDF.validatePassword(password, g, PBKDF.SHA1_ALGORITHM);
+		System.out.println(validated);
 		if (validated == true) {
 			setZalogowano(true);
 		}

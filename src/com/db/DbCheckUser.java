@@ -29,7 +29,7 @@ public class DbCheckUser {
       System.out.println("Creating statement...");
       stmt = conn.createStatement();
 
-      String sql = "SELECT Salt, Representation FROM USERS WHERE User='"+name+"';";
+      String sql = "SELECT Salt, Representation FROM Users WHERE Name='"+name+"';";
       ResultSet rs = stmt.executeQuery(sql);
       //STEP 5: Extract data from result set
       while(rs.next()){
