@@ -2,16 +2,12 @@ package com.db;
 
 //STEP 1. Import required packages
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+import java.io.FileInputStream;
 import java.sql.*;
+import java.util.Properties;
 
 public class DbAddUser {
- // JDBC driver name and database URL
- static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
- static final String DB_URL = "jdbc:mysql://localhost:3306/USERS";
 
- //  Database credentials
- static final String USER = "root";
- static final String PASS = "123";
  
  private static final String ADD_USER = "INSERT INTO Users "
          + "(Name, Salt, Representation) VALUES (?, ?, ?)";
@@ -28,12 +24,21 @@ private static void insert(String name, String salt, String representation) thro
         PreparedStatement stmt = null;
         try{
            //STEP 2: Register JDBC driver
-           Class.forName("com.mysql.jdbc.Driver");
+            Properties prop=new Properties();
+            FileInputStream in = new FileInputStream(System.getProperty("database.properties"));
+            prop.load(in);
+            in.close();
 
-           //STEP 3: Open a connection
-           System.out.println("Connecting to a selected database...");
-           conn = DriverManager.getConnection(DB_URL, USER, PASS);
-           System.out.println("Connected database successfully...");
+            String drivers = prop.getProperty("jdbc.drivers");
+            String connectionURL = prop.getProperty("jdbc.url");
+            String username = prop.getProperty("jdbc.username");
+            String password = prop.getProperty("jdbc.password");
+            Class.forName(drivers);
+            
+            //STEP 3: Open a connection
+            System.out.println("Connecting to a selected database...");
+            conn = DriverManager.getConnection(connectionURL, username, password);
+            System.out.println("Connected database successfully...");
 
            //STEP 4: Execute a query
            System.out.println("Inserting records into the table...");
