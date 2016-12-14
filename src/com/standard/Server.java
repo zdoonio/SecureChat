@@ -17,19 +17,32 @@ public class Server extends UnicastRemoteObject implements ServerIntf {
 	/**
 	 * 
 	 */
+	/*-----------------------------------------------------*/
+	//													   //
+	//													   //
+	//				CREATED BY DOMINIK ZEDD				   //
+	//													   //
+	/*-----------------------------------------------------*/
 	private static final long serialVersionUID = 1L;
 	public String MESSAGE1 = "";
 	public String MESSAGE2 = "";
 	public static boolean isLogedIn;
 	public String name = "";
-	public String[] connectedUsers={"","","","","","","","","","","",""};
+	public ArrayList<String> connectedUsers = new ArrayList<String>();
+	public String targetName ="";
+	public int flagState = 0;
+	
+	
 	private int iterator=0;
+	
+	
 	
 
 	static final Scanner input = new Scanner(System.in);
 
 	public Server() throws RemoteException {
 		super(0); // required to avoid the 'rmic' step, see below
+		//connectedUsers = new ArrayList<String>();
 	}
 	
 	public void sendMessage1(String message) {
@@ -40,10 +53,26 @@ public class Server extends UnicastRemoteObject implements ServerIntf {
 		this.MESSAGE2 = message;
 	}
 	
+	public void sendFlagState(int flag){
+		this.flagState = flag;
+	}
+	
+	public void sendTargetName(String name){
+		this.targetName = name;
+	}
+	
 	public void sendClientName(String name){
 		this.name = name;
-		connectedUsers[iterator]=name;
-		iterator++;
+		/*for (int i = 0; i < connectedUsers.length; ++i){
+			if(connectedUsers[i].equals(name)) {
+				connectedUsers[i] ="";
+			}
+		}*/
+		
+		if(!connectedUsers.contains(name))
+			connectedUsers.add(iterator,name);
+		//connectedUsers[iterator]=name;
+		//iterator++;
 	}
 
 	public String getMessage1() {
@@ -62,8 +91,16 @@ public class Server extends UnicastRemoteObject implements ServerIntf {
 		Server.isLogedIn = zalogowano;
 	}
 	
-	public String[] getConnectedUser(){
+	public ArrayList<String> getConnectedUser(){
 		return connectedUsers;
+	}
+	
+	public String getTargetName(){
+		return targetName;
+	}
+	
+	public int getFlagState(){
+		return flagState;
 	}
 
 	public char Login(String name, char[] password) throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -86,6 +123,8 @@ public class Server extends UnicastRemoteObject implements ServerIntf {
 
 		return 0;
 	}
+	
+	//public void 
 	
 
 	public static void main(String args[]) throws Exception {

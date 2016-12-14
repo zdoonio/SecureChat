@@ -13,6 +13,12 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/*-----------------------------------------------------*/
+//													   //
+//				CREATED BY DOMINIK ZEDD				   //
+//					Copyright © 2016				   //
+//													   //
+/*-----------------------------------------------------*/
 
 public class UserRegGUI extends JFrame implements ActionListener {
 	

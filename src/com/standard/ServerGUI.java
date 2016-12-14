@@ -24,10 +24,12 @@ public class ServerGUI extends JFrame implements ActionListener {
 	private BufferedImage img;
 	private JLabel lname,lserverstatus,lstatus;
 	private UserRegGUI usergui;
-
-	/**
-	 * 
-	 */
+	/*-----------------------------------------------------*/
+	//													   //
+	//				CREATED BY DOMINIK ZEDD				   //
+	//					Copyright © 2016				   //
+	//													   //
+	/*-----------------------------------------------------*/
 	private static final long serialVersionUID = 1L;
 	
 
@@ -145,7 +147,8 @@ public class ServerGUI extends JFrame implements ActionListener {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
 				}
-				DbAddTable.main(null);
+				DbAddTable table = new DbAddTable();
+				table.main(null);
 				try {
 					Server.main(null);
 				} catch (Exception e1) {

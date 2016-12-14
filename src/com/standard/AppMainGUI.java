@@ -10,7 +10,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-
+/*-----------------------------------------------------*/
+//													   //
+//				CREATED BY DOMINIK ZEDD				   //
+//					Copyright © 2016				   //
+//													   //
+/*-----------------------------------------------------*/
 public class AppMainGUI extends JFrame implements ActionListener {
 	
 	private JButton avserver, exit;

@@ -1,32 +1,42 @@
 package com.db;
 //STEP 1. Import required packages
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
 
 public class DbAddTable {
-   
-   public static void main(String[] args) {
+	 // JDBC driver name and database URL
+	   static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+	   static final String DB_URL = "jdbc:mysql://localhost/USERS";
+
+	   //  Database credentials
+	   static final String USER = "root";
+	   static final String PASS = "123";
+   public void main(String[] args) {
    Connection conn = null;
    Statement stmt = null;
    try{
        
       //STEP 2: Register JDBC driver
-      Properties prop=new Properties();
-      FileInputStream in = new FileInputStream(System.getProperty("database.properties"));
-      prop.load(in);
-      in.close();
-
-      String drivers = prop.getProperty("jdbc.drivers");
-      String connectionURL = prop.getProperty("jdbc.url");
-      String username = prop.getProperty("jdbc.username");
-      String password = prop.getProperty("jdbc.password");
-      Class.forName(drivers);
+	  Class.forName("com.mysql.jdbc.Driver");
+      //Properties prop= new Properties();
+      //InputStream in = this.getClass().getClassLoader().getResourceAsStream("settings/database.properties");
+      //FileInputStream in = new FileInputStream(System.getProperty("database.properties"));
+      //prop.load(in);
+      //in.close();
+      
+      //String drivers = prop.getProperty("jdbc.drivers");
+      //String connectionURL = prop.getProperty("jdbc.url");
+      //String username = prop.getProperty("jdbc.username");
+      //String password = prop.getProperty("jdbc.password");
+      //Class.forName(drivers);
      
 
       //STEP 3: Open a connection
       System.out.println("Connecting to a selected database...");
-      conn = DriverManager.getConnection(connectionURL, username, password);
+      conn = DriverManager.getConnection(DB_URL, USER, PASS);
+     // conn = DriverManager.getConnection(connectionURL, username, password);
       System.out.println("Connected database successfully...");
       
       //STEP 4: Execute a query
