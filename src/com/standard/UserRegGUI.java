@@ -59,10 +59,10 @@ public class UserRegGUI extends JFrame implements ActionListener {
             add(tpw);
             tip = new JTextField("ip");
             tip.setBounds(190, 120, 150, 20);
-            add(tip);
+            //add(tip);
             tport = new JTextField("port");
             tport.setBounds(190, 150, 150, 20);
-            add(tport);
+            //add(tport);
 
 
 
@@ -78,10 +78,10 @@ public class UserRegGUI extends JFrame implements ActionListener {
             add(lpw);
             lip = new JLabel("Ip Address");
             lip.setBounds(100,120,150,20);
-            add(lip);
+           // add(lip);
             lport = new JLabel("Port");
             lport.setBounds(100,150,150,20);
-            add(lport);
+           // add(lport);
 
 
 
