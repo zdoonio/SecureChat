@@ -54,25 +54,21 @@ public class Server extends UnicastRemoteObject implements ServerIntf {
 	}
 	
 	public void sendFlagState(int flag){
+		System.out.println("Flag name: "+flag);
 		this.flagState = flag;
 	}
 	
 	public void sendTargetName(String name){
+		System.out.println("Target name: "+name);
 		this.targetName = name;
 	}
 	
 	public void sendClientName(String name){
 		this.name = name;
-		/*for (int i = 0; i < connectedUsers.length; ++i){
-			if(connectedUsers[i].equals(name)) {
-				connectedUsers[i] ="";
-			}
-		}*/
 		
 		if(!connectedUsers.contains(name))
-			connectedUsers.add(iterator,name);
-		//connectedUsers[iterator]=name;
-		//iterator++;
+			connectedUsers.add(iterator++,name);
+		
 	}
 
 	public String getMessage1() {
@@ -96,10 +92,12 @@ public class Server extends UnicastRemoteObject implements ServerIntf {
 	}
 	
 	public String getTargetName(){
+		System.out.println("Target name: "+targetName);
 		return targetName;
 	}
 	
 	public int getFlagState(){
+		System.out.println("Flag name: "+flagState);
 		return flagState;
 	}
 
