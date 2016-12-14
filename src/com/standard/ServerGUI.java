@@ -13,23 +13,27 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 
 
 public class ServerGUI extends JFrame implements ActionListener {
 	
-	private JButton register, exit, serverstatus, serverclose;
-	//private JComboBox securityChooser;
-	private BufferedImage img;
-	private JLabel lname,lserverstatus,lstatus;
-	private UserRegGUI usergui;
 	/*-----------------------------------------------------*/
 	//													   //
 	//				CREATED BY DOMINIK ZEDD				   //
 	//					Copyright © 2016				   //
 	//													   //
 	/*-----------------------------------------------------*/
+	
+	private JButton register, exit, serverstatus, serverclose;
+	//private JComboBox securityChooser;
+	private BufferedImage img;
+	private JLabel lname,lserverstatus,lstatus;
+	private UserRegGUI usergui;
 	private static final long serialVersionUID = 1L;
 	
 
@@ -167,6 +171,17 @@ public class ServerGUI extends JFrame implements ActionListener {
 					e2.printStackTrace();
 				}
 				DbDrop.main(null);
+				
+				Server.setLog(Server.out);
+				PrintWriter serverLog = null;
+				try {
+					serverLog = new PrintWriter("log/server.log");
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		        serverLog.println(Server.out);
+		        serverLog.close();
 			}
 			
 			if(o == exit){

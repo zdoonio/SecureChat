@@ -1,8 +1,10 @@
 package com.standard;
 
 
+import java.io.OutputStream;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.registry.*;
 import java.security.NoSuchAlgorithmException;
@@ -31,10 +33,11 @@ public class Server extends UnicastRemoteObject implements ServerIntf {
 	public ArrayList<String> connectedUsers = new ArrayList<String>();
 	public String targetName ="";
 	public int flagState = 0;
+	public static OutputStream out;
 	
 	
 	private int iterator=0;
-	
+	private static Server obj;
 	
 	
 
@@ -91,8 +94,10 @@ public class Server extends UnicastRemoteObject implements ServerIntf {
 		return connectedUsers;
 	}
 	
-	public String getTargetName(){
+	public String getTargetName() throws ServerNotActiveException{
 		System.out.println("Target name: "+targetName);
+		String activeHosts = Server.getClientHost();
+		System.out.println(activeHosts);
 		return targetName;
 	}
 	
@@ -138,11 +143,12 @@ public class Server extends UnicastRemoteObject implements ServerIntf {
 
 		// Instantiate RmiServer
 
-		Server obj = new Server();
+		obj = new Server();
 
 		// Bind this object instance to the name "RmiServer"
 		Naming.rebind("//localhost/ServerSecure", obj);
 		System.out.println("PeerServer bound in registry");
+		
 	}
 
 
