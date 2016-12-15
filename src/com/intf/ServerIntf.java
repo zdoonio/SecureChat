@@ -16,9 +16,9 @@ public interface ServerIntf extends Remote {
 	//													   //
 	/*-----------------------------------------------------*/
 	
-	public String getMessage() throws RemoteException;
+	public byte[] getMessage() throws RemoteException;
 	
-	public void sendMessage(String message) throws RemoteException;
+	public void sendMessage(byte[] message) throws RemoteException;
 	
 	public void sendFlagState(int flag) throws RemoteException;
 	

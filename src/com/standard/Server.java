@@ -27,8 +27,7 @@ public class Server extends UnicastRemoteObject implements ServerIntf {
 	//													   //
 	/*-----------------------------------------------------*/
 	private static final long serialVersionUID = 1L;
-	public String MESSAGE1 = "";
-	public String MESSAGE2 = "";
+	public byte[] MESSAGE ;
 	public static boolean isLogedIn;
 	public String name = "";
 	public ArrayList<String> connectedUsers = new ArrayList<String>();
@@ -50,12 +49,8 @@ public class Server extends UnicastRemoteObject implements ServerIntf {
 		//connectedUsers = new ArrayList<String>();
 	}
 	
-	public void sendMessage1(String message) {
-		this.MESSAGE1 = message;
-	}
-	
-	public void sendMessage2(String message) {
-		this.MESSAGE2 = message;
+	public void sendMessage(byte[] message) {
+		this.MESSAGE = message;
 	}
 	
 	public void sendFlagState(int flag){
@@ -81,12 +76,8 @@ public class Server extends UnicastRemoteObject implements ServerIntf {
 		
 	}
 
-	public String getMessage1() {
-		return MESSAGE1;
-	}
-
-	public String getMessage2() {
-		return MESSAGE2;
+	public byte[] getMessage() {
+		return MESSAGE;
 	}
 
 	public boolean isLogedIn() {
