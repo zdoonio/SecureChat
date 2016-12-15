@@ -8,6 +8,7 @@ import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.registry.*;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.util.*;
 
@@ -34,6 +35,7 @@ public class Server extends UnicastRemoteObject implements ServerIntf {
 	public String targetName ="";
 	public int flagState = 0;
 	public static OutputStream out;
+	public PublicKey pubKey;
 	
 	
 	private int iterator=0;
@@ -73,6 +75,11 @@ public class Server extends UnicastRemoteObject implements ServerIntf {
 			connectedUsers.add(iterator++,name);
 		
 	}
+	
+	public void sendPublicKey(PublicKey publicKey){
+		this.pubKey = publicKey;
+		
+	}
 
 	public String getMessage1() {
 		return MESSAGE1;
@@ -104,6 +111,10 @@ public class Server extends UnicastRemoteObject implements ServerIntf {
 	public int getFlagState(){
 		System.out.println("Flag name: "+flagState);
 		return flagState;
+	}
+	
+	public PublicKey getPublicKey(){
+		return pubKey;
 	}
 
 	public char Login(String name, char[] password) throws NoSuchAlgorithmException, InvalidKeySpecException {
