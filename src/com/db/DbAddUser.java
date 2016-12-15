@@ -2,7 +2,7 @@ package com.db;
 
 //STEP 1. Import required packages
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
 
@@ -21,33 +21,30 @@ public class DbAddUser {
  
  
  public static void main(String[] args) throws MySQLIntegrityConstraintViolationException {
-     insert(args[0], args[1], args[2]);
+     new DbAddUser().insert(args[0], args[1], args[2]);
  }
 
 
-private static void insert(String name, String salt, String representation) throws 
+private void insert(String name, String salt, String representation) throws 
         com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException {
         Connection conn = null;
         PreparedStatement stmt = null;
         try{
-           //STEP 2: Register JDBC driver
-        	 Class.forName("com.mysql.jdbc.Driver");
-            //Properties prop=new Properties();
-            //FileInputStream in = new FileInputStream(System.getProperty("database.properties"));
-            //prop.load(in);
-            //in.close();
-
-            //String drivers = prop.getProperty("jdbc.drivers");
-            //String connectionURL = prop.getProperty("jdbc.url");
-            //String username = prop.getProperty("jdbc.username");
-            //String password = prop.getProperty("jdbc.password");
-            //Class.forName(drivers);
-            
-            //STEP 3: Open a connection
-            System.out.println("Connecting to a selected database...");
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            //conn = DriverManager.getConnection(connectionURL, username, password);
-            System.out.println("Connected database successfully...");
+        
+        String filename = "users.properties";
+        Properties prop = new Properties();
+        InputStream in = getClass().getResourceAsStream(filename);
+        prop.load(in);
+        in.close();
+        
+        String drivers = prop.getProperty("jdbc.drivers");
+        String connectionURL = prop.getProperty("jdbc.url");
+        String username = prop.getProperty("jdbc.username");
+        String password = prop.getProperty("jdbc.password");
+        Class.forName(drivers);
+        System.out.println("Connecting ...");
+        conn = DriverManager.getConnection(connectionURL,username,password);
+        System.out.println("Connection Successful");
 
            //STEP 4: Execute a query
            System.out.println("Inserting records into the table...");

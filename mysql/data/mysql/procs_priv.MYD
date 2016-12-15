@@ -1,0 +1,11 @@
+2016-12-15 13:54:48 9756 [Note] Event Scheduler: Loaded 0 events
+2016-12-15 13:54:48 9756 [Note] C:\Users\Karol\Documents\GitHub\SecureChat/mysql/bin/mysqld_usbwv8.exe: ready for connections.
+Version: '5.6.13'  socket: ''  port: 3307  MySQL Community Server (GPL)
+2016-12-15 13:55:07 9756 [Warning] InnoDB: Cannot open table users/users from the internal data dictionary of InnoDB though the .frm file for the table exists. See http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting.html for how you can resolve the problem.
+2016-12-15 13:55:09 9756 [Warning] InnoDB: Cannot open table users/users from the internal data dictionary of InnoDB though the .frm file for the table exists. See http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting.html for how you can resolve the problem.
+2016-12-15 14:23:56 29bc  InnoDB: Error: table `users`.`users` does not exist in the InnoDB internal
+InnoDB: data dictionary though MySQL is trying to drop it.
+InnoDB: Have you copied the .frm file of the table to the
+InnoDB: MySQL database directory from another database?
+InnoDB: You can look for further help from
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting.html

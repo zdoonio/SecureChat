@@ -1,7 +1,9 @@
 package com.db;
 
 //STEP 1. Import required packages
+import java.io.InputStream;
 import java.sql.*;
+import java.util.Properties;
 
 public class DbCreate {
  // JDBC driver name and database URL
@@ -12,16 +14,29 @@ public class DbCreate {
  static final String USER = "root";
  static final String PASS = "123";
  
- public static void main(String[] args) {
- Connection conn = null;
- Statement stmt = null;
- try{
-    //STEP 2: Register JDBC driver
-    Class.forName("com.mysql.jdbc.Driver");
-
-    //STEP 3: Open a connection
-    System.out.println("Connecting to database...");
-    conn = DriverManager.getConnection(DB_URL, USER, PASS);
+    public static void main(String[] args) {
+        new DbCreate().create();
+    }
+ 
+    public void create() {
+    Connection conn = null;
+    Statement stmt = null;
+    try{
+        
+        String filename = "database.properties";
+        Properties prop = new Properties();
+        InputStream in = getClass().getResourceAsStream(filename);
+        prop.load(in);
+        in.close();
+        
+        String drivers = prop.getProperty("jdbc.drivers");
+        String connectionURL = prop.getProperty("jdbc.url");
+        String username = prop.getProperty("jdbc.username");
+        String password = prop.getProperty("jdbc.password");
+        Class.forName(drivers);
+        System.out.println("Connecting ...");
+        conn = DriverManager.getConnection(connectionURL,username,password);
+        System.out.println("Connection Successful");
 
     //STEP 4: Execute a query
     System.out.println("Creating database...");

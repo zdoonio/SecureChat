@@ -104,6 +104,12 @@ public class PBKDF {
         return PBKDF2_ITERATIONS + ":" + HexUtils.toHex(salt) + ":" +  HexUtils.toHex(hash);
     }
     
+    public static String createKey(String password, int bytes, byte[] salt) throws 
+            InvalidKeySpecException, NoSuchAlgorithmException {
+        byte[] hash = pbkdf(password.toCharArray(), salt, PBKDF2_ITERATIONS, bytes, SHA1_ALGORITHM);
+        return HexUtils.toHex(hash);
+    }
+    
     /**
      * Returns a generated random salt.
      * 

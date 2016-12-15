@@ -145,12 +145,7 @@ public class ServerGUI extends JFrame implements ActionListener {
 				lstatus.setForeground(Color.green);
 				lstatus.setText("ON");
 				DbCreate.main(null);
-				try {
-					DbConnection.main(null);
-				} catch (SQLException e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}
+                                DbConnection.main(null);
 				DbAddTable table = new DbAddTable();
 				table.main(null);
 				try {
@@ -164,12 +159,7 @@ public class ServerGUI extends JFrame implements ActionListener {
 			if(o == serverclose){
 				lstatus.setForeground(Color.red);
 				lstatus.setText("OFF");
-				try {
-					DbConnection.main(null);
-				} catch (SQLException e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}
+                                DbConnection.main(null);
 				DbDrop.main(null);
 				
 				Server.setLog(Server.out);

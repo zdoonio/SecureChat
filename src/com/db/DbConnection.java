@@ -1,56 +1,51 @@
 package com.db;
 
-import java.sql.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-
-
+/**
+ *
+ * @author Karol
+ */
 public class DbConnection {
-	//DB users
-	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-	static final String dbUrl = "jdbc:mysql://localhost:3306/USERS";
-	static final String user = "root";
-	static final String pass = "123";
-	
-	static Connection myConn = null;
-	static Statement myStmt = null;
-	static ResultSet myRs = null;
-	
-	public static void main(String[] args) throws SQLException {
-
+    
+    public static void main(String args[]) {
         try {
-            //STEP : Register JDBC driver
-            Class.forName("com.mysql.jdbc.Driver");
-           // 1. Get a connection to database
-           myConn = DriverManager.getConnection(dbUrl, user , pass);
-           System.out.println("Database connection successful!\n");
-
-           // 2. Create a statement
-           //myStmt = myConn.createStatement();
-
-           // 3. Execute SQL query
-           //myRs = myStmt.executeQuery("CREATE TABLE Users( UsrNum int NOT NULL CHECK (UsrNum >= 1), Name 	nvarchar(30) NOT NULL,  Salt nvarchar(30) NOT NULL ,Representation	nvarchar(30) NOT NULL, CONSTRAINT PK_UsrNum PRIMARY KEY (UsrNum),  CONSTRAINT U_Name UNIQUE (Name) );" );
-           //myRs = myStmt.executeQuery("INSERT INTO Users VALUES(1,'Jan','bfasfar24','41415fs')");
-
-           // 4. Process the result set
-           //while (myRs.next()) {
-           //System.out.println(myRs.getString("last_name") + ", " + myRs.getString("first_name"));
-                //}
-        }
-        catch (Exception exc) {
-                exc.printStackTrace();
-        }
-        finally {
-            if (myRs != null) {
-                    myRs.close();
-            }
-
-            if (myStmt != null) {
-                    myStmt.close();
-            }
-
-            if (myConn != null) {
-                    myConn.close();
-            }
+            new DbConnection().connect();
+        } catch (IOException ex) {
+            Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void connect() throws IOException, ClassNotFoundException, SQLException {
+        
+        Connection con;
+        
+        String filename = "database.properties";
+        Properties prop = new Properties();
+        InputStream in = getClass().getResourceAsStream(filename);
+        prop.load(in);
+        in.close();
+        
+        String drivers = prop.getProperty("jdbc.drivers");
+        String connectionURL = prop.getProperty("jdbc.url");
+        String username = prop.getProperty("jdbc.username");
+        String password = prop.getProperty("jdbc.password");
+        Class.forName(drivers);
+        System.out.println("Connecting ...");
+        con = DriverManager.getConnection(connectionURL,username,password);
+        System.out.println("Connection Successful");
+        
+    }
+    
 }

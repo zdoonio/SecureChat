@@ -1,0 +1,5 @@
+[Thu Dec 15 14:27:16.557412 2016] [mpm_winnt:notice] [pid 3120:tid 696] AH00455: Apache/2.4.6 (Win32) PHP/5.4.17 configured -- resuming normal operations
+[Thu Dec 15 14:27:16.557913 2016] [mpm_winnt:notice] [pid 3120:tid 696] AH00456: Apache Lounge VC10 Server built: Jul 16 2013 11:15:41
+[Thu Dec 15 14:27:16.557913 2016] [core:notice] [pid 3120:tid 696] AH00094: Command line: 'C:\\Users\\Karol\\Documents\\GitHub\\SecureChat/apache2/bin/httpd_usbwv8.exe -d C:/Users/Karol/Documents/GitHub/SecureChat/apache2'
+[Thu Dec 15 14:27:16.573932 2016] [mpm_winnt:notice] [pid 3120:tid 696] AH00418: Parent: Created child process 10408
+[Thu Dec 15 14:27:17.555620 2016] [mpm_winnt:notice] [pid 10408:tid 716] AH00354: Child: Starting 64 worker threads.
